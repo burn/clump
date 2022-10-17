@@ -22,6 +22,11 @@ function eg.num()
   for x=1,100 do num:add(x) end
   return num.lo==1 and num.hi==100 and num.n==100 end
 
+function eg.dists()
+  local data =DATA(same,the.file) 
+  t = data:around(data.rows[1])
+  for i=1,#data.rows, 50 do oo(data.rows[i]) end end
+ 
 function eg.data()
   local yes,n=0,0
   local function keep(got,want) n=n+1; yes=yes+ (got==want and 1 or 0) end

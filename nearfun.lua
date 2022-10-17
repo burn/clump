@@ -24,6 +24,7 @@ local csv, lt, map,many = _.csv, _.lt, _.map, _.many
 local obj, oo, push ,same,sort,slice = _.obj, _.oo, _.push, _.same,_.sort, _.slice
 local COLS,DATA,NUM,SYM=obj"COLS",obj"DATA",obj"NUM",obj"SYM"
 ----------------------------------------------------------------
+-- `SYM`s summarize streams of symbols.
 function SYM:new(  n,s) --> SYM; for summarizing list of symbols
   self.n= 0                       -- items seen
   self.at=n or 0                 -- column position
@@ -41,6 +42,7 @@ function SYM:add(x) --> nil; add `x` to `self`, updating mode
 function SYM:dist(x1,x2) --> SYM; return gap `x1` to `x2`
   return  x1=="?" and x2=="?" and 1 or x1==x2 and 0 or 1 end
 -----------------------------------------------------------------
+-- `NUM`s summarize streams of numbers.
 function NUM:new(  n,s) --> NUM;  for summarizing list of numbers
   self.n    = 0                -- items seen     
   self.at   = n or 0           -- column position
@@ -64,18 +66,20 @@ function NUM:dist(x1,x2) --> n; return gap between `x1` and `x2`
 function NUM:norm(n) --> n; normalized numbers 0..1 
   return n=="?" and n or (n-self.lo)/(self.hi-self.lo + 1E-32) end
 ------------------------------------------------------------
-function COLS:new(names) --> COLS; creator of column headers
-  self.names=names -- all column names
+-- `COLS` is a factory that makes `SYM`s or `NUM`s (controlled by row1 of data)
+function COLS:new(sNames) --> COLS; creator of column headers
+  self.names=sNames -- all column names
   self.all={}      -- all the columns (including the skipped ones)
   self.klass=nil   -- the single dependent klass column (if it exists)
   self.x={}        -- independent columns (that are not skipped)
-  self.y={}        -- depedent columns (that are not skipped)
-  for c,s in pairs(names) do
+  self.y={}        -- dependent columns (that are not skipped)
+  for c,s in pairs(sNames) do
     local col = push(self.all, (s:find"^[A-Z]" and NUM or SYM)(c,s))
     if not s:find"X$" then -- some columns are skipped
        push(s:find"[!+-]" and self.y or self.x, col) -- some cols are goal cols
        if s:find"!$" then self.klass=col end end end end
 --------------------------------------------------------
+-- `DATA` stores rows, summarized in `NUM` or `SYM` columns.
 function DATA:new(log,  src) --> DATA; store `rows` summarized (in `cols`). `src`=file name or table
   self.cols = nil -- summaries of data
   self.rows = {}  -- kept data

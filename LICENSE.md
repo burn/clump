@@ -1,6 +1,6 @@
-BSD 2-Clause License
+# BSD 2-Clause License
 
-Copyright (c) 2022, Burn
+_Copyright (c) 2022, Tim Menzies_        
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

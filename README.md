@@ -1,4 +1,24 @@
 ```css
+
+near : report the mode of the kth nearest neighbors
+(c) 2022 Tim Menzies <timm@ieee.org> BSD-2 license
+
+Usage: lua near.lua [OPTIONS]
+
+Options:
+ -e  --enough  number of rows to use            = 256
+ -f  --file    file with csv data               = ../data/diabetes.csv
+ -g  --go      start-up example                 = nothing
+ -h  --help    show help                        = false
+ -k  --k       number of nearest neighbors      = 3
+ -p  --p       distance calculation coefficient = 2
+ -s  --seed    random number seed               = 10019
+ -w  --wait    wait before classifying          = 20
+
+Worked examples: https://tinyurl.com/neareg
+
+Install: download to the same directory from github.com/burn,
+         glua/glua.lua, near/4near.lua,  near/near.lua
 ```
 
 #	4near.lua	

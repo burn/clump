@@ -80,17 +80,17 @@ function COLS:new(sNames) --> COLS; creator of column headers
        if s:find"!$" then self.klass=col end end end end
 --------------------------------------------------------
 -- `DATA` stores rows, summarized in `NUM` or `SYM` columns.
-function DATA:new(log,  src) --> DATA; store `rows` summarized (in `cols`). `src`=file name or table
+function DATA:new(src,log) --> DATA; store `rows` summarized (in `cols`). `src`=file name or table
   self.cols = nil -- summaries of data
   self.rows = {}  -- kept data
-  self.log  = log or same 
+  self.log  = log 
   local function add(row) return self:add(row) end
   if type(src) == "string" then csv(src, add) else map(src or {}, add) end end 
 
 function DATA:add(xs) --> nil; for first row, make `cols`. else add to `rows` and summarize
  if   not self.cols 
  then self.cols = COLS(xs) 
- else self:classify(xs)
+ else self:classify(xs) 
       local row= push(self.rows, xs) 
       for _,todo in pairs{self.cols.x, self.cols.y} do
         for _,col in pairs(todo) do 
@@ -108,7 +108,7 @@ function DATA:around(row1,  rows) --> t; sort `rows` (defaults to `self.rows`) b
   return sort(map(rows or self.rows, fun),lt"dist") end
 
 function DATA:classify(row1) 
-  if #self.rows > the.wait then
+  if self.log and  #self.rows > the.wait then
     local sym    = SYM()
     local k      = self.cols.klass.at
     local around = self:around(row1, many(self.rows, the.enough))

@@ -15,10 +15,10 @@ Options:
  -s  --seed    random number seed               = 10019
  -w  --wait    wait before classifying          = 20
 
-Install: to the same directory from github.com/burn...
-   glua/glua.lua
-   near/nearfun.lua
-   near/near.lua]]
+Worked examples: https://tinyurl.com/neareg
+
+Install: download to the same directory from github.com/burn,
+         glua/glua.lua, near/4near.lua,  near/near.lua]]
 
 local csv, lt, map,many = _.csv, _.lt, _.map, _.many
 local obj, oo, push ,same,sort,slice = _.obj, _.oo, _.push, _.same,_.sort, _.slice
